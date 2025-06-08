@@ -1,142 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import {
-  ArrowRight,
-  Users,
-  Zap,
-  Shield,
-  BarChart3,
-  Layers,
-  Rocket,
-} from 'lucide-react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+'use client';
 
-function App() {
-  const navigate = useNavigate();
-  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+
+export default function App() {
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.documentElement.classList.add('dark'); // Default to dark
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      });
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 30;
+      if (backgroundRef.current) {
+        backgroundRef.current.style.transform = `translate(${x}px, ${y}px)`;
+      }
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const features = [
-    {
-      icon: Users,
-      title: "Unified Platform",
-      description: "Connect HR, finance, ops & strategy in one command center."
-    },
-    {
-      icon: Zap,
-      title: "Middleware Ready",
-      description: "Easily integrate with your favorite SaaS tools & APIs."
-    },
-    {
-      icon: Shield,
-      title: "Blockchain Security",
-      description: "Zero Trust and explainable AI powered by invisible blockchain."
-    },
-    {
-      icon: BarChart3,
-      title: "PulsePay Analytics",
-      description: "Integrated payments with CFO dashboards and smart spend management."
-    },
-    {
-      icon: Layers,
-      title: "Templates for Every Industry",
-      description: "From legal to education — launch with prebuilt vertical stacks."
-    },
-    {
-      icon: Rocket,
-      title: "Agile Innovation Studio",
-      description: "Build, ship, and lead with real-time feedback and performance loops."
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-darkBackground text-white relative overflow-hidden">
-      {/* Interactive glow */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
+    <main className="relative overflow-hidden dark:bg-darkBackground text-white min-h-screen px-4 md:px-16 py-24 space-y-32 font-sans">
+      <div
+        className="absolute inset-0 -z-10 blur-3xl opacity-30 transition-transform duration-300"
+        ref={backgroundRef}
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 60%)`,
+          background: 'radial-gradient(circle at center, #6F2DBD, #181825)',
         }}
-        animate={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 60%)`,
-        }}
-        transition={{ type: "tween", ease: "linear", duration: 0.2 }}
       />
 
-      <Header />
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="text-center space-y-4"
+      >
+        <h1 className="text-5xl font-bold tracking-tight">
+          Welcome to <span className="text-wine-400">PulseOS</span>
+        </h1>
+        <p className="text-lg text-muted max-w-xl mx-auto">
+          The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
+        </p>
+        <Button className="mt-6 text-base px-6 py-3 shadow-glow-lg">
+          Get Started <ArrowRight className="ml-2 w-4 h-4" />
+        </Button>
+      </motion.section>
 
-      <div className="relative z-10">
-        {/* Hero */}
-        <section className="py-24 sm:py-32 text-center">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
-            <span className="block">Welcome to</span>
-            <span className="block bg-gradient-to-r from-sidebarHighlight via-wine-500 to-wine-800 bg-clip-text text-transparent">
-              PulseOS
-            </span>
-          </h1>
-          <p className="max-w-3xl mx-auto text-xl text-wine-100 leading-relaxed mb-10">
-            The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
-          </p>
-          <motion.button
-            onClick={() => navigate('/login')}
-            className="group inline-flex items-center gap-3 bg-sidebarHighlight hover:bg-wine-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-        </section>
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="max-w-3xl mx-auto space-y-6"
+      >
+        <h2 className="text-3xl font-bold">🚫 Why Business Systems Fail</h2>
+        <ul className="list-disc pl-6 space-y-2 text-wine-200">
+          <li>Disjointed tools and scattered workflows</li>
+          <li>Lack of automation, explainability, or blockchain security</li>
+          <li>Outdated, clunky interfaces and poor onboarding</li>
+          <li>Zero role-based intelligence or decision support</li>
+        </ul>
+      </motion.section>
 
-        {/* Features */}
-        <section className="py-24 sm:py-32 bg-gradient-to-b from-darkBackground to-sidebarBackground">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-            <h2 className="text-4xl font-bold mb-6">Why PulseOS?</h2>
-            <p className="max-w-2xl mx-auto text-lg text-wine-100 mb-14">
-              Discover the powerful features that make PulseOS the ultimate platform for modern teams.
-            </p>
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="max-w-3xl mx-auto space-y-6"
+      >
+        <h2 className="text-3xl font-bold">✅ The PulseOS Edge</h2>
+        <ul className="list-disc pl-6 space-y-2 text-wine-100">
+          <li>One unified system for operations, finance, HR & performance</li>
+          <li>AI-first workflows with role-based views</li>
+          <li>PulsePay: built-in payment analytics & blockchain security</li>
+          <li>Vertical templates & onboarding studio for fast launches</li>
+        </ul>
+      </motion.section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {features.map((feature, i) => {
-                const Icon = feature.icon;
-                return (
-                  <motion.div
-                    key={i}
-                    className="bg-sidebarBackground p-8 rounded-2xl border border-wine-900 hover:border-wine-700 shadow transition-all duration-300 hover:shadow-glow"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="w-12 h-12 mb-6 mx-auto flex items-center justify-center rounded-xl bg-wine-800/20 text-wine-400">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                    <p className="text-wine-100">{feature.description}</p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <Footer />
-      </div>
-    </div>
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="text-center space-y-4"
+      >
+        <p className="text-lg">🚀 Ready to transform your work?</p>
+        <Button className="px-6 py-3 text-lg font-semibold bg-wine-500 hover:bg-wine-600 transition-colors shadow-glow-lg">
+          Register Now
+        </Button>
+      </motion.section>
+    </main>
   );
 }
-
-export default App;
