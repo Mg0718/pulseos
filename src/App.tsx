@@ -59,136 +59,134 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 dark:from-darkBackground dark:via-darkBackground dark:to-sidebarBackground relative overflow-hidden">
-      {/* Interactive Background */}
+    <div className="scroll-smooth">
+      {/* Background glow following mouse */}
       <motion.div
-        className="absolute inset-0 opacity-30"
+        className="fixed inset-0 z-0 opacity-30 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 50%)`,
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.15) 0%, transparent 50%)`,
         }}
         animate={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 50%)`,
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.15) 0%, transparent 50%)`,
         }}
         transition={{ type: "tween", ease: "linear", duration: 0.2 }}
       />
 
       {/* Header */}
       <Header />
-      
-      {/* Main Content */}
-      <div className="relative z-10">
-        {/* Hero Section */}
-        <motion.section 
-          className="relative overflow-hidden py-20 sm:py-32"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-800/5 via-wine-600/5 to-purple-700/5 dark:from-sidebarHighlight/10 dark:via-wine-600/10 dark:to-purple-700/10"></div>
-          <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center">
-              <motion.h1 
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <span className="block text-slate-900 dark:text-white mb-2">Welcome to</span>
-                <motion.span 
-                  className="block bg-gradient-to-r from-purple-800 via-wine-600 to-purple-700 dark:from-sidebarHighlight dark:via-wine-400 dark:to-purple-400 bg-clip-text text-transparent"
-                  animate={{ 
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  PulseOS
-                </motion.span>
-              </motion.h1>
-              <motion.p 
-                className="max-w-3xl mx-auto text-xl sm:text-2xl text-slate-600 dark:text-gray-300 leading-relaxed mb-12"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
-              </motion.p>
-              <motion.button 
-                onClick={handleGetStarted}
-                className="group inline-flex items-center gap-3 bg-gradient-to-r from-purple-700 to-wine-600 dark:from-sidebarHighlight dark:to-wine-500 hover:from-purple-800 hover:to-wine-700 dark:hover:from-sidebarHighlight/90 dark:hover:to-wine-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl dark:shadow-glow transform hover:-translate-y-0.5 transition-all duration-200"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get Started
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-            </div>
-          </div>
-        </motion.section>
 
-        {/* Features Section */}
-        <motion.section 
-          id="features" 
-          className="relative overflow-hidden py-20 sm:py-32 min-h-screen bg-gradient-to-b from-[#6F2DBD] via-[#A663CC] to-[#1f102d]"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <motion.div 
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
+      {/* Violet Hero Section */}
+      <motion.section
+        className="relative z-10 min-h-screen overflow-hidden py-20 sm:py-32 bg-gradient-to-b from-[#6F2DBD] via-[#A663CC] to-[#1f102d] text-white"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <motion.h1
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <span className="block mb-2">Welcome to</span>
+            <motion.span
+              className="block bg-gradient-to-r from-purple-100 via-white to-purple-300 bg-clip-text text-transparent"
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
             >
-              <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-6">
-                Why PulseOS?
-              </h2>
-              <p className="max-w-2xl mx-auto text-xl text-slate-600 dark:text-gray-300">
-                Discover the powerful features that make PulseOS the ultimate platform for modern teams.
-              </p>
-            </motion.div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => {
-                const IconComponent = feature.icon;
-                return (
-                  <motion.div
-                    key={index}
-                    className="group bg-white dark:bg-sidebarBackground rounded-2xl p-8 shadow-md hover:shadow-xl dark:shadow-glow transition-all duration-300 border border-purple-100 dark:border-sidebarHighlight/20 hover:border-purple-200 dark:hover:border-sidebarHighlight/40"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ y: -5, scale: 1.02 }}
-                  >
-                    <motion.div 
-                      className="w-12 h-12 bg-gradient-to-r from-purple-100 to-wine-100 dark:from-sidebarHighlight/20 dark:to-wine-600/20 rounded-xl flex items-center justify-center mb-6"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    >
-                      <IconComponent className="w-6 h-6 text-purple-700 dark:text-sidebarHighlight" />
-                    </motion.div>
-                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
-                      {feature.title}
-                    </h3>
-                    <p className="text-slate-600 dark:text-gray-300 leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </motion.section>
+              PulseOS
+            </motion.span>
+          </motion.h1>
 
-        {/* Footer */}
-        <Footer />
-      </div>
+          <motion.p
+            className="max-w-3xl mx-auto text-xl sm:text-2xl text-white/80 leading-relaxed mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
+          </motion.p>
+
+          <motion.button
+            onClick={handleGetStarted}
+            className="group inline-flex items-center gap-3 bg-white text-purple-800 hover:bg-purple-200 px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Get Started
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </motion.button>
+        </div>
+      </motion.section>
+
+      {/* Divider Glow */}
+      <motion.div
+        className="h-16 w-full bg-gradient-to-b from-[#A663CC] to-black"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      />
+
+      {/* Features Section - Black Background */}
+      <motion.section
+        id="features"
+        className="py-20 sm:py-32 min-h-screen bg-black text-white"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl sm:text-5xl font-bold mb-6">Why PulseOS?</h2>
+            <p className="max-w-2xl mx-auto text-xl text-white/80">
+              Discover the powerful features that make PulseOS the ultimate platform for modern teams.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <motion.div
+                  key={index}
+                  className="group bg-[#111] rounded-2xl p-8 shadow-md hover:shadow-xl border border-white/10 hover:border-white/20 transition-all duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                >
+                  <motion.div
+                    className="w-12 h-12 bg-purple-900/40 rounded-xl flex items-center justify-center mb-6"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <IconComponent className="w-6 h-6 text-purple-400" />
+                  </motion.div>
+                  <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
+                  <p className="text-white/70 leading-relaxed">{feature.description}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
