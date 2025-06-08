@@ -126,7 +126,7 @@ function App() {
               </motion.button>
             </div>
           </div>
-        </motion.section>
+        </motion.section className="relative overflow-hidden py-20 sm:py-32 min-h-screen bg-gradient-to-b from-[#6F2DBD] via-[#A663CC] to-[#1f102d]">
 
         {/* Features Section */}
         <motion.section 
