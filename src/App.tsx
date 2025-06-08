@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Users, Zap, Shield, BarChart3, Layers, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import {
+  ArrowRight,
+  Users,
+  Zap,
+  Shield,
+  BarChart3,
+  Layers,
+  Rocket,
+} from 'lucide-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -10,7 +18,7 @@ function App() {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
-    document.documentElement.classList.add('dark'); // Force dark mode
+    document.documentElement.classList.add('dark'); // Default to dark
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
@@ -56,14 +64,14 @@ function App() {
 
   return (
     <div className="min-h-screen bg-darkBackground text-white relative overflow-hidden">
-      {/* Interactive violet glow background */}
+      {/* Interactive glow */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.15) 0%, transparent 50%)`,
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 60%)`,
         }}
         animate={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.15) 0%, transparent 50%)`,
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 60%)`,
         }}
         transition={{ type: "tween", ease: "linear", duration: 0.2 }}
       />
@@ -71,20 +79,20 @@ function App() {
       <Header />
 
       <div className="relative z-10">
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="py-24 sm:py-32 text-center">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
             <span className="block">Welcome to</span>
-            <span className="block bg-gradient-to-r from-sidebarHighlight via-wine-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-sidebarHighlight via-wine-500 to-wine-800 bg-clip-text text-transparent">
               PulseOS
             </span>
           </h1>
-          <p className="max-w-3xl mx-auto text-xl text-gray-300 leading-relaxed mb-10">
+          <p className="max-w-3xl mx-auto text-xl text-wine-100 leading-relaxed mb-10">
             The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
           </p>
           <motion.button
             onClick={() => navigate('/login')}
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-sidebarHighlight to-wine-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-200"
+            className="group inline-flex items-center gap-3 bg-sidebarHighlight hover:bg-wine-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-200"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -93,11 +101,11 @@ function App() {
           </motion.button>
         </section>
 
-        {/* Features Section */}
+        {/* Features */}
         <section className="py-24 sm:py-32 bg-gradient-to-b from-darkBackground to-sidebarBackground">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-bold mb-6">Why PulseOS?</h2>
-            <p className="max-w-2xl mx-auto text-lg text-gray-400 mb-14">
+            <p className="max-w-2xl mx-auto text-lg text-wine-100 mb-14">
               Discover the powerful features that make PulseOS the ultimate platform for modern teams.
             </p>
 
@@ -107,17 +115,17 @@ function App() {
                 return (
                   <motion.div
                     key={i}
-                    className="bg-sidebarBackground p-8 rounded-2xl border border-sidebarHighlight/10 hover:border-sidebarHighlight/30 shadow transition-all duration-300 hover:shadow-glow"
+                    className="bg-sidebarBackground p-8 rounded-2xl border border-wine-900 hover:border-wine-700 shadow transition-all duration-300 hover:shadow-glow"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <div className="w-12 h-12 mb-6 mx-auto flex items-center justify-center rounded-xl bg-sidebarHighlight/10 text-sidebarHighlight">
+                    <div className="w-12 h-12 mb-6 mx-auto flex items-center justify-center rounded-xl bg-wine-800/20 text-wine-400">
                       <Icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                    <p className="text-gray-400">{feature.description}</p>
+                    <p className="text-wine-100">{feature.description}</p>
                   </motion.div>
                 );
               })}
