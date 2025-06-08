@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   AlignLeft,
   LayoutDashboard,
@@ -48,9 +49,14 @@ interface SidebarSection {
   items: SidebarItem[];
 }
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  showSidebar: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ showSidebar }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isExpanded, setIsExpanded] = useState(true);
-  const [activeRoute, setActiveRoute] = useState('/dashboard');
 
   useEffect(() => {
     const savedState = localStorage.getItem('sidebarExpanded');
@@ -63,6 +69,12 @@ const Sidebar: React.FC = () => {
     const newState = !isExpanded;
     setIsExpanded(newState);
     localStorage.setItem('sidebarExpanded', JSON.stringify(newState));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    navigate('/');
+    window.location.reload();
   };
 
   const sections: SidebarSection[] = [
@@ -135,7 +147,7 @@ const Sidebar: React.FC = () => {
     {
       title: 'Admin & Settings',
       items: [
-        { label: 'Company Settings', icon: Settings, route: '/admin/settings' },
+        { label: 'Company Settings', icon: Settings, route: '/settings' },
         { label: 'Plans & Billing', icon: CreditCard, route: '/admin/billing' },
         { label: 'Onboarding Studio', icon: Sparkles, route: '/onboarding' },
         { label: 'API Keys', icon: Key, route: '/admin/api' },
@@ -146,12 +158,17 @@ const Sidebar: React.FC = () => {
   const utilityItems: SidebarItem[] = [
     { label: 'Help & Docs', icon: LifeBuoy, route: '/help' },
     { label: 'Profile', icon: UserCircle, route: '/profile' },
-    { label: 'Logout', icon: LogOut, route: '/logout' },
   ];
 
   const sidebarVariants = {
-    expanded: { width: '280px' },
-    collapsed: { width: '80px' },
+    visible: { 
+      x: 0,
+      width: isExpanded ? '280px' : '80px',
+    },
+    hidden: { 
+      x: isExpanded ? -280 : -80,
+      width: isExpanded ? '280px' : '80px',
+    },
   };
 
   const contentVariants = {
@@ -161,9 +178,9 @@ const Sidebar: React.FC = () => {
 
   return (
     <motion.div
-      className="h-screen bg-sidebarBackground backdrop-blur-md bg-black/40 border-r border-sidebarHighlight/20 flex flex-col"
+      className="fixed left-0 top-0 h-screen bg-sidebarBackground backdrop-blur-md bg-black/40 border-r border-sidebarHighlight/20 flex flex-col z-40"
       variants={sidebarVariants}
-      animate={isExpanded ? 'expanded' : 'collapsed'}
+      animate={showSidebar ? 'visible' : 'hidden'}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       {/* Header */}
@@ -178,7 +195,8 @@ const Sidebar: React.FC = () => {
                 className="flex items-center"
               >
                 <motion.h1
-                  className="text-xl font-bold bg-gradient-to-r from-sidebarHighlight to-wine-400 bg-clip-text text-transparent"
+                  className="text-xl font-bold bg-gradient-to-r from-sidebarHighlight to-wine-400 bg-clip-text text-transparent cursor-pointer"
+                  onClick={() => navigate('/dashboard')}
                   animate={{ 
                     textShadow: [
                       '0 0 10px rgba(111, 45, 189, 0.5)',
@@ -187,6 +205,7 @@ const Sidebar: React.FC = () => {
                     ]
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
+                  whileHover={{ scale: 1.05 }}
                 >
                   PulseOS
                 </motion.h1>
@@ -222,11 +241,11 @@ const Sidebar: React.FC = () => {
             <div className="space-y-1">
               {section.items.map((item, itemIndex) => {
                 const IconComponent = item.icon;
-                const isActive = activeRoute === item.route;
+                const isActive = location.pathname === item.route;
                 return (
                   <motion.button
                     key={itemIndex}
-                    onClick={() => setActiveRoute(item.route)}
+                    onClick={() => navigate(item.route)}
                     className={`w-full flex items-center px-3 py-2 rounded-xl transition-all duration-200 group ${
                       isActive
                         ? 'bg-sidebarHighlight text-white shadow-glow'
@@ -264,7 +283,7 @@ const Sidebar: React.FC = () => {
           return (
             <motion.button
               key={index}
-              onClick={() => setActiveRoute(item.route)}
+              onClick={() => navigate(item.route)}
               className="w-full flex items-center px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-sidebarHighlight/20 transition-all duration-200 group mb-1"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -286,6 +305,29 @@ const Sidebar: React.FC = () => {
             </motion.button>
           );
         })}
+        
+        {/* Logout Button */}
+        <motion.button
+          onClick={handleLogout}
+          className="w-full flex items-center px-3 py-2 rounded-xl text-gray-300 hover:text-red-400 hover:bg-red-500/20 transition-all duration-200 group"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <LogOut className={`w-5 h-5 ${isExpanded ? 'mr-3' : 'mx-auto'}`} />
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.span
+                variants={contentVariants}
+                initial="collapsed"
+                animate="expanded"
+                exit="collapsed"
+                className="text-sm font-medium"
+              >
+                Logout
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
     </motion.div>
   );
