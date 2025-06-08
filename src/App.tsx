@@ -131,7 +131,7 @@ function App() {
         {/* Features Section */}
         <motion.section 
           id="features" 
-          className="py-20 sm:py-32 bg-gradient-to-b from-white to-slate-50 dark:from-darkBackground dark:to-sidebarBackground"
+          className="relative overflow-hidden py-20 sm:py-32 min-h-screen bg-gradient-to-b from-[#6F2DBD] via-[#A663CC] to-[#1f102d]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
