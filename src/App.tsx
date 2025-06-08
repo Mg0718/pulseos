@@ -7,16 +7,16 @@ import Footer from './components/Footer';
 
 function App() {
   const navigate = useNavigate();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
+    document.documentElement.classList.add('dark'); // Force dark mode
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
         y: (e.clientY / window.innerHeight) * 100,
       });
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
@@ -54,15 +54,11 @@ function App() {
     }
   ];
 
-  const handleGetStarted = () => {
-    navigate('/login');
-  };
-
   return (
-    <div className="scroll-smooth">
-      {/* Background glow following mouse */}
+    <div className="min-h-screen bg-darkBackground text-white relative overflow-hidden">
+      {/* Interactive violet glow background */}
       <motion.div
-        className="fixed inset-0 z-0 opacity-30 pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.15) 0%, transparent 50%)`,
         }}
@@ -72,121 +68,65 @@ function App() {
         transition={{ type: "tween", ease: "linear", duration: 0.2 }}
       />
 
-      {/* Header */}
       <Header />
 
-      {/* Violet Hero Section */}
-      <motion.section
-        className="relative z-10 min-h-screen overflow-hidden py-20 sm:py-32 bg-gradient-to-b from-[#6F2DBD] via-[#A663CC] to-[#1f102d] text-white"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <motion.h1
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="block mb-2">Welcome to</span>
-            <motion.span
-              className="block bg-gradient-to-r from-purple-100 via-white to-purple-300 bg-clip-text text-transparent"
-              animate={{
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="py-24 sm:py-32 text-center">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
+            <span className="block">Welcome to</span>
+            <span className="block bg-gradient-to-r from-sidebarHighlight via-wine-500 to-purple-500 bg-clip-text text-transparent">
               PulseOS
-            </motion.span>
-          </motion.h1>
-
-          <motion.p
-            className="max-w-3xl mx-auto text-xl sm:text-2xl text-white/80 leading-relaxed mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
+            </span>
+          </h1>
+          <p className="max-w-3xl mx-auto text-xl text-gray-300 leading-relaxed mb-10">
             The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
-          </motion.p>
-
+          </p>
           <motion.button
-            onClick={handleGetStarted}
-            className="group inline-flex items-center gap-3 bg-white text-purple-800 hover:bg-purple-200 px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            onClick={() => navigate('/login')}
+            className="group inline-flex items-center gap-3 bg-gradient-to-r from-sidebarHighlight to-wine-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-200"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             Get Started
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </motion.button>
-        </div>
-      </motion.section>
+        </section>
 
-      {/* Divider Glow */}
-      <motion.div
-        className="h-16 w-full bg-gradient-to-b from-[#A663CC] to-black"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      />
-
-      {/* Features Section - Black Background */}
-      <motion.section
-        id="features"
-        className="py-20 sm:py-32 min-h-screen bg-black text-white"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6">Why PulseOS?</h2>
-            <p className="max-w-2xl mx-auto text-xl text-white/80">
+        {/* Features Section */}
+        <section className="py-24 sm:py-32 bg-gradient-to-b from-darkBackground to-sidebarBackground">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+            <h2 className="text-4xl font-bold mb-6">Why PulseOS?</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-400 mb-14">
               Discover the powerful features that make PulseOS the ultimate platform for modern teams.
             </p>
-          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <motion.div
-                  key={index}
-                  className="group bg-[#111] rounded-2xl p-8 shadow-md hover:shadow-xl border border-white/10 hover:border-white/20 transition-all duration-300"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {features.map((feature, i) => {
+                const Icon = feature.icon;
+                return (
                   <motion.div
-                    className="w-12 h-12 bg-purple-900/40 rounded-xl flex items-center justify-center mb-6"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    key={i}
+                    className="bg-sidebarBackground p-8 rounded-2xl border border-sidebarHighlight/10 hover:border-sidebarHighlight/30 shadow transition-all duration-300 hover:shadow-glow"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    viewport={{ once: true }}
                   >
-                    <IconComponent className="w-6 h-6 text-purple-400" />
+                    <div className="w-12 h-12 mb-6 mx-auto flex items-center justify-center rounded-xl bg-sidebarHighlight/10 text-sidebarHighlight">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                    <p className="text-gray-400">{feature.description}</p>
                   </motion.div>
-                  <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                  <p className="text-white/70 leading-relaxed">{feature.description}</p>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </motion.section>
+        </section>
 
-      {/* Footer */}
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }
