@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight, Users, Zap, Shield, BarChart3, Layers, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import {
-  ArrowRight,
-  Users,
-  Zap,
-  Shield,
-  BarChart3,
-  Layers,
-  Rocket,
-} from 'lucide-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
 function App() {
   const navigate = useNavigate();
-  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    document.documentElement.classList.add('dark'); // Default to dark
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
         y: (e.clientY / window.innerHeight) * 100,
       });
     };
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
@@ -62,77 +54,139 @@ function App() {
     }
   ];
 
+  const handleGetStarted = () => {
+    navigate('/login');
+  };
+
   return (
-    <div className="min-h-screen bg-darkBackground text-white relative overflow-hidden">
-      {/* Interactive glow */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 dark:from-darkBackground dark:via-darkBackground dark:to-sidebarBackground relative overflow-hidden">
+      {/* Interactive Background */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 opacity-30"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 60%)`,
+          background: radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 50%),
         }}
         animate={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 60%)`,
+          background: radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(111, 45, 189, 0.1) 0%, transparent 50%),
         }}
         transition={{ type: "tween", ease: "linear", duration: 0.2 }}
       />
 
+      {/* Header */}
       <Header />
-
+      
+      {/* Main Content */}
       <div className="relative z-10">
-        {/* Hero */}
-        <section className="py-24 sm:py-32 text-center">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
-            <span className="block">Welcome to</span>
-            <span className="block bg-gradient-to-r from-sidebarHighlight via-wine-500 to-wine-800 bg-clip-text text-transparent">
-              PulseOS
-            </span>
-          </h1>
-          <p className="max-w-3xl mx-auto text-xl text-wine-100 leading-relaxed mb-10">
-            The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
-          </p>
-          <motion.button
-            onClick={() => navigate('/login')}
-            className="group inline-flex items-center gap-3 bg-sidebarHighlight hover:bg-wine-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-        </section>
+        {/* Hero Section */}
+        <motion.section 
+          className="relative overflow-hidden py-20 sm:py-32"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-800/5 via-wine-600/5 to-purple-700/5 dark:from-sidebarHighlight/10 dark:via-wine-600/10 dark:to-purple-700/10"></div>
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center">
+              <motion.h1 
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <span className="block text-slate-900 dark:text-white mb-2">Welcome to</span>
+                <motion.span 
+                  className="block bg-gradient-to-r from-purple-800 via-wine-600 to-purple-700 dark:from-sidebarHighlight dark:via-wine-400 dark:to-purple-400 bg-clip-text text-transparent"
+                  animate={{ 
+                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  PulseOS
+                </motion.span>
+              </motion.h1>
+              <motion.p 
+                className="max-w-3xl mx-auto text-xl sm:text-2xl text-slate-600 dark:text-gray-300 leading-relaxed mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                The Operating System for Modern Global Teams — unify planning, performance, payments & people with one platform.
+              </motion.p>
+              <motion.button 
+                onClick={handleGetStarted}
+                className="group inline-flex items-center gap-3 bg-gradient-to-r from-purple-700 to-wine-600 dark:from-sidebarHighlight dark:to-wine-500 hover:from-purple-800 hover:to-wine-700 dark:hover:from-sidebarHighlight/90 dark:hover:to-wine-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl dark:shadow-glow transform hover:-translate-y-0.5 transition-all duration-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Get Started
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+            </div>
+          </div>
+        </motion.section>
 
-        {/* Features */}
-        <section className="py-24 sm:py-32 bg-gradient-to-b from-darkBackground to-sidebarBackground">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-            <h2 className="text-4xl font-bold mb-6">Why PulseOS?</h2>
-            <p className="max-w-2xl mx-auto text-lg text-wine-100 mb-14">
-              Discover the powerful features that make PulseOS the ultimate platform for modern teams.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {features.map((feature, i) => {
-                const Icon = feature.icon;
+        {/* Features Section */}
+        <motion.section 
+          id="features" 
+          className="py-20 sm:py-32 bg-gradient-to-b from-white to-slate-50 dark:from-darkBackground dark:to-sidebarBackground"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+                Why PulseOS?
+              </h2>
+              <p className="max-w-2xl mx-auto text-xl text-slate-600 dark:text-gray-300">
+                Discover the powerful features that make PulseOS the ultimate platform for modern teams.
+              </p>
+            </motion.div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {features.map((feature, index) => {
+                const IconComponent = feature.icon;
                 return (
                   <motion.div
-                    key={i}
-                    className="bg-sidebarBackground p-8 rounded-2xl border border-wine-900 hover:border-wine-700 shadow transition-all duration-300 hover:shadow-glow"
+                    key={index}
+                    className="group bg-white dark:bg-sidebarBackground rounded-2xl p-8 shadow-md hover:shadow-xl dark:shadow-glow transition-all duration-300 border border-purple-100 dark:border-sidebarHighlight/20 hover:border-purple-200 dark:hover:border-sidebarHighlight/40"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
+                    whileHover={{ y: -5, scale: 1.02 }}
                   >
-                    <div className="w-12 h-12 mb-6 mx-auto flex items-center justify-center rounded-xl bg-wine-800/20 text-wine-400">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                    <p className="text-wine-100">{feature.description}</p>
+                    <motion.div 
+                      className="w-12 h-12 bg-gradient-to-r from-purple-100 to-wine-100 dark:from-sidebarHighlight/20 dark:to-wine-600/20 rounded-xl flex items-center justify-center mb-6"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <IconComponent className="w-6 h-6 text-purple-700 dark:text-sidebarHighlight" />
+                    </motion.div>
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+                      {feature.title}
+                    </h3>
+                    <p className="text-slate-600 dark:text-gray-300 leading-relaxed">
+                      {feature.description}
+                    </p>
                   </motion.div>
                 );
               })}
             </div>
           </div>
-        </section>
+        </motion.section>
 
+        {/* Footer */}
         <Footer />
       </div>
     </div>
